@@ -35,3 +35,32 @@ a {
 ul {
   list-style: none;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  width: 16rem;
+  margin: 2rem 0;
+
+  label {
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: none;
+  }
+  input[type='submit'] {
+    cursor: pointer;
+    margin-top: 0.8rem;
+    background-color: rgb(63 81 181 / 75%);
+
+    &:hover {
+      filter: brightness(90%);
+    }
+  }
+}
