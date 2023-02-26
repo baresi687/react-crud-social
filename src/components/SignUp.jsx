@@ -20,7 +20,7 @@ function SignUp() {
           <input id="confirm-password" type="password" placeholder="Confirm password" />
         </div>
         <div>
-          <input id="confirm-password" type="submit" placeholder="Submit" value="Submit" />
+          <input type="submit" placeholder="Submit" value="Submit" />
         </div>
       </form>
     </>
