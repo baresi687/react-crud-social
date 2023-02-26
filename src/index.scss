@@ -23,6 +23,15 @@
 body {
 }
 
+a {
+  text-decoration: none;
+  color: cornflowerblue;
+
+  &:hover {
+    filter: brightness(80%);
+  }
+}
+
 ul {
   list-style: none;
 }
