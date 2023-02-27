@@ -43,9 +43,9 @@ function SignIn() {
     postData(USER_LOGIN_URL, payload)
       .then((response) => {
         if (response.accessToken) {
-          localStorage.setItem('token', JSON.stringify(response.accessToken));
-          navigate('/');
+          localStorage.setItem('userData', JSON.stringify(response));
           setAuth(response.accessToken);
+          navigate('/');
         } else {
           setFormError(true);
           setFormErrorMSg(response.errors[0].message);

@@ -5,15 +5,15 @@ import { useNavigate } from 'react-router-dom';
 function CreatePost() {
   const [auth, setAuth] = useContext(AuthContext);
   const navigate = useNavigate();
-  const token = JSON.parse(localStorage.getItem('token'));
+  const userData = JSON.parse(localStorage.getItem('userData'));
 
   useEffect(() => {
-    if (!token) {
+    if (!userData) {
       navigate('/signin', { replace: true });
     } else {
-      setAuth(token);
+      setAuth(userData.accessToken);
     }
-  }, [setAuth, auth, token, navigate]);
+  }, [auth, setAuth, userData, navigate]);
 
   return (
     <>
