@@ -22,7 +22,7 @@ button {
 form {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
+  gap: 0.1rem;
   width: 16rem;
   margin: 2rem 0;
 
@@ -40,6 +40,15 @@ form {
 
   button {
     width: 100%;
-    margin-top: 0.8rem;
+    margin-top: 0.6rem;
+  }
+
+  p,
+  h2 {
+    color: #ff9800c7;
+  }
+
+  h2 {
+    font-size: 1.125rem;
   }
 }
