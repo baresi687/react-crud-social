@@ -3,9 +3,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { USER_LOGIN_URL } from '../settings/api.js';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { postData } from '../utils/fetchFunctions.js';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext.jsx';
 
 const schema = yup.object({
   email: yup
@@ -25,6 +26,13 @@ function SignIn() {
   const [formErrorMsg, setFormErrorMSg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const [auth, setAuth] = useContext(AuthContext);
+
+  useEffect(() => {
+    if (auth) {
+      navigate('/', { replace: true });
+    }
+  }, [auth, navigate]);
 
   function onSubmit(data) {
     const payload = data;
@@ -35,6 +43,8 @@ function SignIn() {
     postData(USER_LOGIN_URL, payload)
       .then((response) => {
         if (response.accessToken) {
+          localStorage.setItem('userData', JSON.stringify(response));
+          setAuth(response.accessToken);
           navigate('/');
         } else {
           setFormError(true);
@@ -64,7 +74,7 @@ function SignIn() {
         </div>
         <div>
           <Button type="submit" color="#3f51b5bf">
-            {isSubmitting ? 'Processing ...' : 'Sign Up'}
+            {isSubmitting ? 'Processing ...' : 'Sign In'}
           </Button>
         </div>
         {formError && <h2>{formErrorMsg}</h2>}

@@ -1,15 +1,20 @@
 import './App.scss';
 import NavBar from './components/NavBar.jsx';
 import { Outlet } from 'react-router-dom';
+import { AuthContext } from './context/AuthContext.jsx';
+import { useState } from 'react';
 
 function App() {
+  const [auth, setAuth] = useState(null);
   return (
     <>
-      <NavBar />
-      <main>
-        <Outlet />
-      </main>
-      <footer></footer>
+      <AuthContext.Provider value={[auth, setAuth]}>
+        <NavBar />
+        <main>
+          <Outlet />
+        </main>
+        <footer></footer>
+      </AuthContext.Provider>
     </>
   );
 }
