@@ -18,7 +18,7 @@ const schema = yup.object({
     .trim()
     .required('Please enter an email')
     .matches(/^[\w\-.]+@(stud.)?noroff.no$/, 'Email must be a @noroff.no or @stud.noroff address'),
-  password: yup.string().required('Please enter a password').min(8, 'Password must 8 characters or more').trim(),
+  password: yup.string().trim().required('Please enter a password').min(8, 'Password must 8 characters or more'),
   confirmPassword: yup
     .string()
     .trim()
@@ -41,6 +41,7 @@ function SignUp() {
     const payload = data;
     delete payload.confirmPassword;
     setIsSubmitting(true);
+    setFormError(false);
 
     postData(USER_SIGNUP_URL, payload)
       .then((response) => {
