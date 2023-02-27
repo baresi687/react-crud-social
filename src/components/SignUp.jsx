@@ -1,3 +1,5 @@
+import Button from './Button.jsx';
+
 function SignUp() {
   return (
     <>
@@ -20,7 +22,9 @@ function SignUp() {
           <input id="confirm-password" type="password" placeholder="Confirm password" />
         </div>
         <div>
-          <input type="submit" placeholder="Submit" value="Submit" />
+          <Button type="submit" color="#3f51b5bf">
+            Sign Up
+          </Button>
         </div>
       </form>
     </>

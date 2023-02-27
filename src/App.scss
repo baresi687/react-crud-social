@@ -7,3 +7,39 @@
 main {
   margin: 4rem 0;
 }
+
+button {
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 0.2rem;
+  border: none;
+
+  &:hover {
+    filter: brightness(90%);
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  width: 16rem;
+  margin: 2rem 0;
+
+  label {
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.2rem;
+    border: none;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 0.8rem;
+  }
+}

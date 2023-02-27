@@ -1,6 +1,6 @@
 import './NavBar.scss';
 import { NavLink } from 'react-router-dom';
-import SignOutBtn from './SignOutBtn.jsx';
+import Button from './Button.jsx';
 function NavBar() {
   const isSignedIn = false;
   function setNavItemActive({ isActive }) {
@@ -29,7 +29,7 @@ function NavBar() {
             <NavLink to="/profile" style={setNavItemActive}>
               Profile
             </NavLink>
-            <SignOutBtn />
+            <Button>Sign Out</Button>
           </>
         ) : (
           <>
