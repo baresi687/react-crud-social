@@ -3,9 +3,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { USER_SIGNUP_URL } from '../settings/api.js';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { postData } from '../utils/fetchFunctions.js';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext.jsx';
 
 const schema = yup.object({
   name: yup
@@ -35,6 +36,7 @@ function SignUp() {
   const [formError, setFormError] = useState(false);
   const [formErrorMsg, setFormErrorMSg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [auth] = useContext(AuthContext);
   const navigate = useNavigate();
 
   function onSubmit(data) {
@@ -58,6 +60,12 @@ function SignUp() {
       })
       .finally(() => setIsSubmitting(false));
   }
+
+  useEffect(() => {
+    if (auth) {
+      navigate('/', { replace: true });
+    }
+  }, [auth, navigate]);
 
   return (
     <>
