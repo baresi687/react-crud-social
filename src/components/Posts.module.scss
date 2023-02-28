@@ -4,9 +4,27 @@
   gap: 2rem;
 
   :global {
+    .post-container {
+      border-radius: 1.5rem;
+      padding: 1rem;
+      background-color: #2a2a2a;
+    }
+
     img {
-      height: 14rem;
+      height: 12rem;
       object-fit: cover;
+    }
+
+    .post-heading {
+      font-size: 1.125rem;
+      text-transform: capitalize;
+    }
+
+    p {
+      margin: 0;
+      .author {
+        font-weight: bold;
+      }
     }
   }
 }

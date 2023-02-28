@@ -38,7 +38,12 @@ function Posts() {
         setIsError(false);
         const response = await fetch(GET_POSTS_URL, options);
         const responseJSON = await response.json();
-        setPosts(responseJSON);
+
+        if (response.status === 200) {
+          setPosts(responseJSON);
+        } else {
+          setIsError(true);
+        }
       } catch (error) {
         setIsError(true);
       } finally {
@@ -48,26 +53,30 @@ function Posts() {
     getData();
   }, []);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   if (isError) {
-    return <div>Something went wrong.. please try again later</div>;
+    return (
+      <>
+        <p>Something went wrong getting posts ...</p>
+        <p>Please try again later</p>
+      </>
+    );
   }
 
   return (
     <>
       <h1>Posts</h1>
+      {isLoading && <div className="loader"></div>}
       <section className={postsStyles}>
         {posts
           .filter(({ media }) => media)
           .map(({ id, title, media, author }) => {
             return (
-              <div key={id}>
+              <div key={id} className="post-container">
                 <img src={media} alt={title} onError={handleImgError} />
-                <h2>{title}</h2>
-                <p>By {author.name}</p>
+                <h2 className="post-heading">{title}</h2>
+                <p>
+                  By <span className="author">{author.name}</span>
+                </p>
               </div>
             );
           })}
