@@ -8,11 +8,13 @@ import SignUp from './components/SignUp.jsx';
 import Posts from './components/Posts.jsx';
 import CreatePost from './components/CreatePost.jsx';
 import Profile from './components/Profile.jsx';
+import ErrorPage from './components/ErrorPage.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
