@@ -3,7 +3,7 @@ import { AuthContext } from '../context/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { getFromStorage } from '../utils/storage.js';
 import { GET_POSTS_URL } from '../settings/api.js';
-import './Posts.scss';
+import { posts as postsStyles } from './Posts.module.scss';
 
 const { accessToken } = getFromStorage('userData');
 function Posts() {
@@ -60,7 +60,7 @@ function Posts() {
   return (
     <>
       <h1>Posts</h1>
-      <section className="posts">
+      <section className={postsStyles}>
         {posts
           .filter(({ media }) => media)
           .map(({ id, title, media, author }) => {
