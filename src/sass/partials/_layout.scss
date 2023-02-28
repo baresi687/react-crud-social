@@ -1,11 +1,27 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 3rem 2rem;
+body {
+  overflow-y: scroll;
 }
 
 main {
   margin: 4rem 0;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: cornflowerblue;
+
+  &:hover {
+    filter: brightness(80%);
+  }
+}
+
+img {
+  display: block;
+  width: 100%;
 }
 
 button {

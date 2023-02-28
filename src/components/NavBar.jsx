@@ -1,4 +1,4 @@
-import './NavBar.scss';
+import { nav as navStyles } from './NavBar.module.scss';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Button from './Button.jsx';
 import { useContext, useEffect } from 'react';
@@ -31,7 +31,7 @@ function NavBar() {
 
   return (
     <header>
-      <nav>
+      <nav className={navStyles}>
         <NavLink to="/" className="logo">
           SocialMedia
         </NavLink>

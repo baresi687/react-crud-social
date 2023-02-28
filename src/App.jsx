@@ -1,4 +1,4 @@
-import './App.scss';
+import './sass/index.scss';
 import NavBar from './components/NavBar.jsx';
 import { Outlet } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext.jsx';
