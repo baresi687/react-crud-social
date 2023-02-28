@@ -21,6 +21,7 @@
 }
 
 body {
+  overflow-y: scroll;
 }
 
 a {
@@ -34,4 +35,9 @@ a {
 
 ul {
   list-style: none;
+}
+
+img {
+  display: block;
+  width: 100%;
 }
