@@ -38,7 +38,6 @@ function Posts() {
         setIsError(false);
         const response = await fetch(GET_POSTS_URL, options);
         const responseJSON = await response.json();
-
         setPosts(responseJSON);
       } catch (error) {
         setIsError(true);
