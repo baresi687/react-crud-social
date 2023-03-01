@@ -18,6 +18,7 @@ function Profile() {
   return (
     <>
       <h1>Profile</h1>
+      <h2>Page coming soon ...</h2>
     </>
   );
 }

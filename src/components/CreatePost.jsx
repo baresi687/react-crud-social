@@ -17,7 +17,8 @@ function CreatePost() {
 
   return (
     <>
-      <h1>CreatePost</h1>
+      <h1>Create Post</h1>
+      <h2>Page coming soon ...</h2>
     </>
   );
 }
