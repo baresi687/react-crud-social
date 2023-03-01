@@ -48,7 +48,7 @@ function SignUp() {
     postData(USER_SIGNUP_URL, payload)
       .then((response) => {
         if (response.id) {
-          navigate('/signin');
+          navigate('/sign-in');
         } else {
           setFormError(true);
           setFormErrorMSg(response.errors[0].message);

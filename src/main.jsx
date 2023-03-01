@@ -9,6 +9,7 @@ import Posts from './components/Posts.jsx';
 import CreatePost from './components/CreatePost.jsx';
 import Profile from './components/Profile.jsx';
 import ErrorPage from './components/ErrorPage.jsx';
+import PostDetails from './components/PostDetails.jsx';
 
 const router = createBrowserRouter([
   {
@@ -21,11 +22,11 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/signin',
+        path: '/sign-in',
         element: <SignIn />,
       },
       {
-        path: '/signup',
+        path: '/sign-up',
         element: <SignUp />,
       },
       {
@@ -33,7 +34,11 @@ const router = createBrowserRouter([
         element: <Posts />,
       },
       {
-        path: '/createpost',
+        path: '/post-details/:id',
+        element: <PostDetails />,
+      },
+      {
+        path: '/create-post',
         element: <CreatePost />,
       },
       {

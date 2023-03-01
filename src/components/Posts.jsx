@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { getFromStorage } from '../utils/storage.js';
 import { GET_POSTS_URL } from '../settings/api.js';
 import { posts as postsStyles } from './Posts.module.scss';
+import { Link } from 'react-router-dom';
 
-const { accessToken } = getFromStorage('userData');
 function Posts() {
+  const { accessToken } = getFromStorage('userData');
   const [auth, setAuth] = useContext(AuthContext);
   const navigate = useNavigate();
-  const userData = JSON.parse(localStorage.getItem('userData'));
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -19,12 +19,12 @@ function Posts() {
   }
 
   useEffect(() => {
-    if (!userData) {
-      navigate('/signin', { replace: true });
+    if (!accessToken) {
+      navigate('/sign-in', { replace: true });
     } else {
-      setAuth(userData.accessToken);
+      setAuth(accessToken);
     }
-  }, [auth, setAuth, userData, navigate]);
+  }, [auth, setAuth, accessToken, navigate]);
 
   useEffect(() => {
     async function getData() {
@@ -51,7 +51,7 @@ function Posts() {
       }
     }
     getData();
-  }, []);
+  }, [accessToken]);
 
   if (isError) {
     return (
@@ -71,13 +71,13 @@ function Posts() {
           .filter(({ media }) => media)
           .map(({ id, title, media, author }) => {
             return (
-              <div key={id} className="post-container">
+              <Link to={`/post-details/${id}`} key={id} className="post-container">
                 <img src={media} alt={title} onError={handleImgError} />
                 <h2 className="post-heading">{title}</h2>
                 <p>
                   By <span className="author">{author.name}</span>
                 </p>
-              </div>
+              </Link>
             );
           })}
       </section>
