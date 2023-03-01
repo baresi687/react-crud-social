@@ -19,7 +19,7 @@ function NavBar() {
   function handleSignOut() {
     setAuth(null);
     localStorage.clear();
-    navigate('/signin');
+    navigate('/sign-in');
   }
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function NavBar() {
             <NavLink to="/posts" style={setNavItemActive}>
               Posts
             </NavLink>
-            <NavLink to="/createpost" style={setNavItemActive}>
+            <NavLink to="/create-post" style={setNavItemActive}>
               Create Post
             </NavLink>
             <NavLink to="/profile" style={setNavItemActive}>
@@ -54,10 +54,10 @@ function NavBar() {
           </>
         ) : (
           <>
-            <NavLink to="/signup" style={setNavItemActive}>
+            <NavLink to="/sign-up" style={setNavItemActive}>
               Sign Up
             </NavLink>
-            <NavLink to="/signin" style={setNavItemActive}>
+            <NavLink to="/sign-in" style={setNavItemActive}>
               Sign In
             </NavLink>
           </>

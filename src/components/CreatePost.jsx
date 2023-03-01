@@ -9,7 +9,7 @@ function CreatePost() {
 
   useEffect(() => {
     if (!userData) {
-      navigate('/signin', { replace: true });
+      navigate('/sign-in', { replace: true });
     } else {
       setAuth(userData.accessToken);
     }
