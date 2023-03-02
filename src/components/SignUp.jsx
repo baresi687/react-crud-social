@@ -74,17 +74,17 @@ function SignUp() {
         <div>
           <label htmlFor="username">Username</label>
           <input {...register('name')} name="name" placeholder="Username" />
-          <p>{errors.name?.message}</p>
+          {errors.name ? <p>{errors.name.message}</p> : null}
         </div>
         <div>
           <label htmlFor="email">Email</label>
           <input {...register('email')} name="email" type="email" placeholder="Email" />
-          <p>{errors.email?.message}</p>
+          {errors.email ? <p>{errors.email.message}</p> : null}
         </div>
         <div>
           <label htmlFor="password">Password</label>
           <input {...register('password')} name="password" type="password" placeholder="Password" />
-          <p>{errors.password?.message}</p>
+          {errors.password ? <p>{errors.password.message}</p> : null}
         </div>
         <div>
           <label htmlFor="confirm-password">Confirm password</label>
@@ -94,7 +94,7 @@ function SignUp() {
             type="password"
             placeholder="Confirm password"
           />
-          <p>{errors.confirmPassword?.message}</p>
+          {errors.confirmPassword ? <p>{errors.confirmPassword.message}</p> : null}
         </div>
         <div>
           <Button type="submit" color="#3f51b5bf">

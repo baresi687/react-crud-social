@@ -1,0 +1,21 @@
+.createPostStyles {
+  :global {
+    .tag-desc {
+      font-style: italic;
+      font-size: 0.8rem;
+    }
+
+    .tags button {
+      width: inherit;
+      font-style: italic;
+      margin-right: 0.5rem;
+      background-color: #2a2a2a;
+      cursor: pointer;
+
+      &::after {
+        content: 'x';
+        margin-left: 0.3rem;
+      }
+    }
+  }
+}

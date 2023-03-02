@@ -68,16 +68,7 @@ function PostDetails() {
       <section>
         {isLoading && <div className="loader"></div>}
         <p style={backBtnStyle}>
-          Back to{' '}
-          <Link
-            to={'..'}
-            onClick={(e) => {
-              e.preventDefault();
-              navigate(-1);
-            }}
-          >
-            Posts
-          </Link>
+          To >> <Link to={'/posts'}>Posts page</Link>
         </p>
         <div className={postStyles}>
           <div>

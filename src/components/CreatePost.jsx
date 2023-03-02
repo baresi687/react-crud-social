@@ -1,3 +1,4 @@
+import { createPostStyles } from './CreatePost.module.scss';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
@@ -29,6 +30,7 @@ function CreatePost() {
   const [formErrorMsg, setFormErrorMSg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [auth, setAuth] = useContext(AuthContext);
+  const [tags, setTags] = useState([]);
   const navigate = useNavigate();
   const { accessToken } = getFromStorage('userData');
 
@@ -40,9 +42,26 @@ function CreatePost() {
     }
   }, [auth, setAuth, accessToken, navigate]);
 
+  function handleTags(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+
+      if (!tags.includes(e.currentTarget.value) && tags.length <= 8) {
+        setTags([...tags, e.currentTarget.value]);
+        e.currentTarget.value = '';
+      }
+    }
+  }
+
+  function removeTag(e) {
+    setTags([...tags.filter((item) => item !== e.target.innerText)]);
+  }
+
   function onSubmit(data) {
     setIsSubmitting(true);
     setFormError(false);
+
+    data.tags = tags;
 
     postData(CREATE_POST_URL, data, accessToken)
       .then((response) => {
@@ -63,21 +82,36 @@ function CreatePost() {
   return (
     <>
       <h1>Create Post</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className={createPostStyles} onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label htmlFor="title">Title</label>
           <input {...register('title')} name="title" placeholder="Title of post" />
-          <p>{errors.title?.message}</p>
+          {errors.title ? <p>{errors.title.message}</p> : null}
         </div>
         <div>
           <label htmlFor="body">Description</label>
           <textarea {...register('body')} name="body" placeholder="Description" rows={8} />
-          <p>{errors.body?.message}</p>
+          {errors.body ? <p>{errors.body.message}</p> : null}
         </div>
         <div>
           <label htmlFor="media">Image</label>
           <input {...register('media')} name="media" placeholder="Image URL" />
-          <p>{errors.media?.message}</p>
+          {errors.media ? <p>{errors.media.message}</p> : null}
+        </div>
+        <div>
+          <label htmlFor="tags">
+            Tags: <small className={'tag-desc'}>Type in tag and hit enter to add tags</small>
+          </label>
+          <div>
+            <input id={'tags'} onKeyDown={handleTags} name="tags" placeholder="Tags (Optional)" />
+            <div className={'tags'}>
+              {tags.map((tag, index) => (
+                <Button type={'button'} key={index} title="Remove tag" onClick={(e) => removeTag(e)}>
+                  {tag}
+                </Button>
+              ))}
+            </div>
+          </div>
         </div>
         <div>
           <Button type="submit" color="#3f51b5bf">
