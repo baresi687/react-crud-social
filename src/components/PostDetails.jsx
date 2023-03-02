@@ -68,7 +68,7 @@ function PostDetails() {
       <section>
         {isLoading && <div className="loader"></div>}
         <p style={backBtnStyle}>
-          To >> <Link to={'/posts'}>Posts page</Link>
+          To {'>>'} <Link to={'/posts'}>Posts page</Link>
         </p>
         <div className={postStyles}>
           <div>
