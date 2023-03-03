@@ -1,9 +1,12 @@
+import { getFromStorage } from '../utils/storage.js';
+
+const { name: userName } = getFromStorage('userData');
 const API_BASE_URL = 'https://nf-api.onrender.com/api/v1/social';
 const USER_SIGNUP_URL = API_BASE_URL + '/auth/register';
 const USER_LOGIN_URL = API_BASE_URL + '/auth/login';
 const GET_POSTS_URL = API_BASE_URL + '/posts?_author=true';
 const CREATE_POST_URL = API_BASE_URL + '/posts';
-const GET_USER_POSTS_URL = API_BASE_URL + `/profiles/USER?_posts=true`;
+const GET_USER_POSTS_URL = API_BASE_URL + `/profiles/${userName}?_posts=true`;
 const EDIT_DELETE_USER_POST = API_BASE_URL + '/posts/';
 const GET_POST_DETAILS = EDIT_DELETE_USER_POST;
 

@@ -13,7 +13,7 @@ function PostDetails() {
   const [auth, setAuth] = useContext(AuthContext);
   const { accessToken } = getFromStorage('userData');
   const { id } = useParams();
-  const [post, setPost] = useState('df');
+  const [post, setPost] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();

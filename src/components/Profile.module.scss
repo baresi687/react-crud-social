@@ -1,0 +1,38 @@
+.profileStyles {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 2rem;
+
+  :global {
+    .user-post {
+      padding: 2rem;
+      border-radius: 1.5rem;
+      background-color: #2a2a2a;
+
+      a:hover {
+        filter: initial;
+      }
+    }
+    h2,
+    p {
+      color: initial;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-transform: capitalize;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .action-btn {
+      display: flex;
+      gap: 1rem;
+
+      > button {
+        width: 100%;
+      }
+    }
+  }
+}
