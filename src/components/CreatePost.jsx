@@ -63,7 +63,7 @@ function CreatePost() {
 
     data.tags = tags;
 
-    postData(CREATE_POST_URL, data, accessToken)
+    postData(CREATE_POST_URL, data, 'POST', accessToken)
       .then((response) => {
         if (response.id) {
           navigate(`/post-details/${response.id}`);

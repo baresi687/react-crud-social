@@ -1,6 +1,6 @@
-async function postData(api, postData, auth) {
+async function postData(api, postData, method = 'POST', auth) {
   const options = {
-    method: 'POST',
+    method: method,
     headers: {
       'Content-type': 'application/json',
       Authorization: `Bearer ${auth}`,
