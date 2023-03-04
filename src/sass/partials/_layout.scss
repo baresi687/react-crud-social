@@ -1,5 +1,5 @@
 body {
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 
 main {
@@ -69,6 +69,10 @@ form {
   h2 {
     font-size: 1.125rem;
   }
+}
+
+.toggle-modal {
+  display: block !important;
 }
 
 .loader {

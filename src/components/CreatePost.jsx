@@ -46,7 +46,7 @@ function CreatePost() {
     if (e.key === 'Enter') {
       e.preventDefault();
 
-      if (!tags.includes(e.currentTarget.value) && tags.length <= 8) {
+      if (e.currentTarget.value && !tags.includes(e.currentTarget.value) && tags.length <= 8) {
         setTags([...tags, e.currentTarget.value]);
         e.currentTarget.value = '';
       }
