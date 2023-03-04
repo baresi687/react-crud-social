@@ -44,12 +44,11 @@
   height: 100%;
   top: 0;
   left: 0;
-  overflow: auto;
   background-color: rgba(0, 0, 0, 0.6);
 
   :global {
     .modal-container {
-      margin: 10rem auto;
+      margin: 9rem auto;
       max-width: 20rem;
       border-radius: 0.2rem;
       background-color: #2a2a2a;
@@ -84,7 +83,7 @@
         width: inherit;
         font-style: italic;
         margin-right: 0.5rem;
-        background-color: #2a2a2a;
+        background-color: #242424;
         cursor: pointer;
 
         &::after {

@@ -24,6 +24,7 @@ function Profile() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
   const [formError, setFormError] = useState(false);
@@ -31,13 +32,15 @@ function Profile() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [tags, setTags] = useState([]);
-  const { accessToken } = getFromStorage('userData');
+  const { accessToken, name: userName } = getFromStorage('userData');
   const [auth, setAuth] = useContext(AuthContext);
   const navigate = useNavigate();
   const [userPosts, setUserPosts] = useState([]);
+  const [postId, setPostId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isActionBtnError, setIsActionBtn] = useState(false);
+  const [refreshComponent, setRefreshComponent] = useState(false);
 
   function handleDeletePost(id) {
     setIsLoading(true);
@@ -55,6 +58,45 @@ function Profile() {
       .finally(() => setIsLoading(false));
   }
 
+  function handleEdit(e) {
+    setTags([]);
+    setPostId(e.target.dataset.id);
+    setFormError(false);
+    setIsModal(true);
+
+    if (e.target.dataset.tags.length > 0) {
+      const tagsForEdit = e.target.dataset.tags.split(',');
+      setTags([...tagsForEdit]);
+    }
+
+    setValue('title', e.target.dataset.title);
+    setValue('body', e.target.dataset.body);
+    setValue('media', e.target.dataset.media);
+  }
+
+  function onEditSubmit(data) {
+    data.tags = tags;
+    setIsSubmitting(true);
+
+    postData(EDIT_DELETE_USER_POST + postId, data, 'PUT', accessToken)
+      .then((response) => {
+        if (response.id) {
+          setIsModal(false);
+          setRefreshComponent(refreshComponent + 1);
+        } else {
+          setFormError(true);
+          setFormErrorMSg(response.errors[0].message);
+        }
+      })
+      .catch(() => {
+        setFormError(true);
+        setFormErrorMSg('Something went wrong.. please try again later');
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
+  }
+
   function handleTags(e) {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -66,17 +108,8 @@ function Profile() {
     }
   }
 
-  function handleEdit() {
-    setIsModal(true);
-    console.log('modal');
-  }
-
   function removeTag(e) {
     setTags([...tags.filter((item) => item !== e.target.innerText)]);
-  }
-
-  function onSubmit(data) {
-    console.log('data');
   }
 
   useEffect(() => {
@@ -91,10 +124,12 @@ function Profile() {
     async function getData() {
       const options = { headers: { Authorization: `Bearer ${accessToken}` } };
 
+      setUserPosts([]);
+
       try {
         setIsLoading(true);
         setIsError(false);
-        const response = await fetch(GET_USER_POSTS_URL, options);
+        const response = await fetch(`${GET_USER_POSTS_URL}${userName}?_posts=true`, options);
         const responseJSON = await response.json();
 
         if (response.status === 200) {
@@ -109,7 +144,7 @@ function Profile() {
       }
     }
     getData();
-  }, [accessToken]);
+  }, [accessToken, refreshComponent, userName]);
 
   if (isError) {
     return (
@@ -134,7 +169,7 @@ function Profile() {
         )}
         <div className={profileStyles}>
           {userPosts.length
-            ? userPosts.map(({ id, title, body }) => {
+            ? userPosts.map(({ id, title, body, media, tags }) => {
                 return (
                   <div key={id} className={'user-post'}>
                     <Link to={`/post-details/${id}`}>
@@ -145,7 +180,15 @@ function Profile() {
                       <Button color={'darkred'} onClick={() => handleDeletePost(id)}>
                         Delete
                       </Button>
-                      <Button color={'darkgoldenrod'} onClick={handleEdit}>
+                      <Button
+                        color={'darkgoldenrod'}
+                        dataId={id}
+                        dataTitle={title}
+                        dataBody={body}
+                        dataMedia={media}
+                        dataTags={[tags]}
+                        onClick={handleEdit}
+                      >
                         Edit
                       </Button>
                     </div>
@@ -168,7 +211,7 @@ function Profile() {
                 X
               </button>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onEditSubmit)}>
               <h1>Edit post</h1>
               <div>
                 <label htmlFor="title">Title</label>
