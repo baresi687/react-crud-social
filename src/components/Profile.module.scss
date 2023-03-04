@@ -1,6 +1,6 @@
 .profileStyles {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 2rem;
 
   :global {
@@ -13,8 +13,8 @@
         filter: initial;
       }
     }
-    h2,
-    p {
+    h2 {
+      margin-top: 0;
       color: initial;
       white-space: nowrap;
       overflow: hidden;
@@ -22,8 +22,10 @@
       text-transform: capitalize;
     }
 
-    h2 {
-      margin-top: 0;
+    img {
+      height: 10rem;
+      object-fit: cover;
+      margin-bottom: 1.5rem;
     }
 
     .action-btn {

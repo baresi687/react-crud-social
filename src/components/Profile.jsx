@@ -174,7 +174,7 @@ function Profile() {
                   <div key={id} className={'user-post'}>
                     <Link to={`/post-details/${id}`}>
                       <h2>{title}</h2>
-                      <p>{body}</p>
+                      <img src={media} alt={title} />
                     </Link>
                     <div className={'action-btn'}>
                       <Button color={'darkred'} onClick={() => handleDeletePost(id)}>
