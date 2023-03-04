@@ -34,19 +34,11 @@ function CreatePost() {
   const navigate = useNavigate();
   const { accessToken } = getFromStorage('userData');
 
-  useEffect(() => {
-    if (!accessToken) {
-      navigate('/sign-in', { replace: true });
-    } else {
-      setAuth(accessToken);
-    }
-  }, [auth, setAuth, accessToken, navigate]);
-
   function handleTags(e) {
     if (e.key === 'Enter') {
       e.preventDefault();
 
-      if (!tags.includes(e.currentTarget.value) && tags.length <= 8) {
+      if (e.currentTarget.value && !tags.includes(e.currentTarget.value) && tags.length <= 8) {
         setTags([...tags, e.currentTarget.value]);
         e.currentTarget.value = '';
       }
@@ -63,7 +55,7 @@ function CreatePost() {
 
     data.tags = tags;
 
-    postData(CREATE_POST_URL, data, accessToken)
+    postData(CREATE_POST_URL, data, 'POST', accessToken)
       .then((response) => {
         if (response.id) {
           navigate(`/post-details/${response.id}`);
@@ -78,6 +70,14 @@ function CreatePost() {
       })
       .finally(() => setIsSubmitting(false));
   }
+
+  useEffect(() => {
+    if (!accessToken) {
+      navigate('/sign-in', { replace: true });
+    } else {
+      setAuth(accessToken);
+    }
+  }, [auth, setAuth, accessToken, navigate]);
 
   return (
     <>

@@ -39,9 +39,7 @@
 
       > span {
         font-style: italic;
-      }
-      > span:first-letter {
-        text-transform: capitalize;
+        text-transform: lowercase;
       }
     }
 

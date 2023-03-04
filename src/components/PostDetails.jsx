@@ -13,7 +13,7 @@ function PostDetails() {
   const [auth, setAuth] = useContext(AuthContext);
   const { accessToken } = getFromStorage('userData');
   const { id } = useParams();
-  const [post, setPost] = useState('df');
+  const [post, setPost] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
@@ -56,8 +56,9 @@ function PostDetails() {
   if (isError) {
     return (
       <>
-        <p>Something went wrong getting posts ...</p>
+        <p>Something went wrong getting post ...</p>
         <p>Please try again later</p>
+        <Link to={'/posts'}>Posts page</Link>
       </>
     );
   }
@@ -66,40 +67,45 @@ function PostDetails() {
     <>
       <h1>Post Details</h1>
       <section>
-        {isLoading && <div className="loader"></div>}
-        <p style={backBtnStyle}>
-          To {'>>'} <Link to={'/posts'}>Posts page</Link>
-        </p>
-        <div className={postStyles}>
-          <div>
-            <h2>{post.title}</h2>
-            {post.author && (
-              <small className="author">
-                By <span>{post.author.name}</span> on{' '}
-                {new Date(post.created).toLocaleDateString(undefined, dateOptions)}
-              </small>
-            )}
-            <p>{post.body}</p>
-            {post.tags && post.tags.length && post.tags.join() ? (
-              <small className="tags">
-                Tags:
-                {post.tags
-                  .filter((tag) => tag.length > 1)
-                  .map((tag, index, arr) => (
-                    <span key={index}>
-                      <Link to={'#'} href="#">
-                        {tag}
-                      </Link>
-                      {index < arr.length - 1 && ', '}
-                    </span>
-                  ))}
-              </small>
-            ) : null}
-          </div>
-          <div>
-            <img src={post.media} alt={post.title} />
-          </div>
-        </div>
+        {isLoading ? (
+          <div className="loader"></div>
+        ) : (
+          <>
+            <p style={backBtnStyle}>
+              To {'>>'} <Link to={'/posts'}>Posts page</Link>
+            </p>
+            <div className={postStyles}>
+              <div>
+                <h2>{post.title}</h2>
+                {post.author && (
+                  <small className="author">
+                    By <span>{post.author.name}</span> on{' '}
+                    {new Date(post.created).toLocaleDateString(undefined, dateOptions)}
+                  </small>
+                )}
+                <p>{post.body}</p>
+                {post.tags && post.tags.length && post.tags.join() ? (
+                  <small className="tags">
+                    Tags:
+                    {post.tags
+                      .filter((tag) => tag.length > 1)
+                      .map((tag, index, arr) => (
+                        <span key={index}>
+                          <Link to={'#'} href="#">
+                            {tag}
+                          </Link>
+                          {index < arr.length - 1 && ', '}
+                        </span>
+                      ))}
+                  </small>
+                ) : null}
+              </div>
+              <div>
+                <img src={post.media} alt={post.title} />
+              </div>
+            </div>
+          </>
+        )}
       </section>
     </>
   );

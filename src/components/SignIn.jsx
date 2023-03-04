@@ -48,7 +48,17 @@ function SignIn() {
           navigate('/');
         } else {
           setFormError(true);
-          setFormErrorMSg(response.errors[0].message);
+
+          switch (response.statusCode) {
+            case 429:
+              setFormErrorMSg(response.status);
+              break;
+            case 401:
+              setFormErrorMSg(response.errors[0].message);
+              break;
+            default:
+              setFormErrorMSg('Something went wrong.. please try again later');
+          }
         }
       })
       .catch(() => {
