@@ -1,3 +1,5 @@
+@import '../sass/partials/base';
+
 .createPostStyles {
   :global {
     .tag-desc {
@@ -9,7 +11,7 @@
       width: inherit;
       font-style: italic;
       margin-right: 0.5rem;
-      background-color: #2a2a2a;
+      background-color: $secondary-bg-color;
       cursor: pointer;
 
       &::after {

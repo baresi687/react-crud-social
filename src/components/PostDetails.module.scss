@@ -1,7 +1,9 @@
+@import '../sass/partials/base';
+
 .post {
   display: flex;
   gap: 2rem;
-  background-color: #2a2a2a;
+  background-color: $secondary-bg-color;
   border-radius: 1.5rem;
   padding: 2rem;
   max-height: 30rem;
