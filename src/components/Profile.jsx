@@ -4,11 +4,12 @@ import { useNavigate, Link } from 'react-router-dom';
 import { GET_USER_POSTS_URL, EDIT_DELETE_USER_POST } from '../settings/api.js';
 import { getFromStorage } from '../utils/storage.js';
 import Button from './Button.jsx';
-import { profileStyles, editModal } from './Profile.module.scss';
+import { profileStyles, userPostStyles, editModal } from './Profile.module.scss';
 import { postData } from '../utils/fetchFunctions.js';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup.js';
 import { useForm } from 'react-hook-form';
+import avatarPlaceholder from '../assets/avatar-placeholder.svg';
 
 const schema = yup.object({
   title: yup.string().trim().required('Please enter a title'),
@@ -158,100 +159,114 @@ function Profile() {
   return (
     <>
       <h1>Profile</h1>
-      <section>
-        <h3>Your posts</h3>
-        {isLoading && (
-          <>
-            <div style={{ height: '100vh' }}>
-              <div className={'loader'}></div>
-            </div>
-          </>
-        )}
-        <div className={profileStyles}>
-          {userPosts.length
-            ? userPosts.map(({ id, title, body, media, tags }) => {
-                return (
-                  <div key={id} className={'user-post'}>
-                    <Link to={`/post-details/${id}`}>
-                      <h2>{title}</h2>
-                      <img src={media} alt={title} />
-                    </Link>
-                    <div className={'action-btn'}>
-                      <Button color={'darkred'} onClick={() => handleDeletePost(id)}>
-                        Delete
-                      </Button>
-                      <Button
-                        color={'darkgoldenrod'}
-                        dataId={id}
-                        dataTitle={title}
-                        dataBody={body}
-                        dataMedia={media}
-                        dataTags={[tags]}
-                        onClick={handleEdit}
-                      >
-                        Edit
-                      </Button>
-                    </div>
-                  </div>
-                );
-              })
-            : !isLoading && (
-                <div>
-                  <h4>You have no posts</h4>
-                  <Link to={'/create-post'}>Create post</Link>
-                </div>
-              )}
-        </div>
-        {isActionBtnError && <p>Something went wrong deleting post.. Please try again later</p>}
-        <div className={`${editModal} ${isModal ? 'toggle-modal' : ''}`}>
-          <div className={'modal-container'}>
-            <div className={'modal-header'}>
-              <div>Edit Post</div>
-              <button aria-label={'Close'} onClick={() => setIsModal(false)}>
-                X
-              </button>
-            </div>
-            <form onSubmit={handleSubmit(onEditSubmit)}>
-              <h1>Edit post</h1>
-              <div>
-                <label htmlFor="title">Title</label>
-                <input {...register('title')} name="title" placeholder="Title of post" />
-                {errors.title ? <p>{errors.title.message}</p> : null}
-              </div>
-              <div>
-                <label htmlFor="body">Description</label>
-                <textarea {...register('body')} name="body" placeholder="Description" rows={8} />
-                {errors.body ? <p>{errors.body.message}</p> : null}
-              </div>
-              <div>
-                <label htmlFor="media">Image</label>
-                <input {...register('media')} name="media" placeholder="Image URL" />
-                {errors.media ? <p>{errors.media.message}</p> : null}
-              </div>
-              <div>
-                <label htmlFor="tags">
-                  Tags: <small className={'tag-desc'}>Type in tag and hit enter to add tags</small>
-                </label>
-                <div>
-                  <input id={'tags'} onKeyDown={handleTags} name="tags" placeholder="Tags (Optional)" />
-                  <div className={'tags'}>
-                    {tags.map((tag, index) => (
-                      <Button type={'button'} key={index} title="Remove tag" onClick={(e) => removeTag(e)}>
-                        {tag}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <Button type="submit" color="#3f51b5bf">
-                  {isSubmitting ? 'Processing ...' : 'Edit Post'}
-                </Button>
-              </div>
-              {formError && <h2>{formErrorMsg}</h2>}
+      {isLoading && (
+        <>
+          <div style={{ height: '100vh' }}>
+            <div className={'loader'}></div>
+          </div>
+        </>
+      )}
+      <section className={profileStyles}>
+        <section id={'avatar-change'}>
+          <div className={'avatar-change'}>
+            <img src={avatarPlaceholder} alt={'avatar'} />
+            <h2>{userName}</h2>
+            <form>
+              <label htmlFor={'change-avatar'}>Change Avatar</label>
+              <input id={'change-avatar'} placeholder={'Avatar URL'} />
+              <Button type="submit" color="#3f51b5bf">
+                {isSubmitting ? 'Processing ...' : 'Update Avatar'}
+              </Button>
             </form>
           </div>
-        </div>
+        </section>
+        <section id={'user-posts'}>
+          <div className={userPostStyles}>
+            {userPosts.length
+              ? userPosts.map(({ id, title, body, media, tags }) => {
+                  return (
+                    <div key={id} className={'user-post'}>
+                      <Link to={`/post-details/${id}`}>
+                        <h3>{title}</h3>
+                        <img src={media} alt={title} />
+                      </Link>
+                      <div className={'action-btn'}>
+                        <Button color={'darkred'} onClick={() => handleDeletePost(id)}>
+                          Delete
+                        </Button>
+                        <Button
+                          color={'darkgoldenrod'}
+                          dataId={id}
+                          dataTitle={title}
+                          dataBody={body}
+                          dataMedia={media}
+                          dataTags={[tags]}
+                          onClick={handleEdit}
+                        >
+                          Edit
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })
+              : !isLoading && (
+                  <div>
+                    <h3>You have no posts</h3>
+                    <Link to={'/create-post'}>Create post</Link>
+                  </div>
+                )}
+          </div>
+          {isActionBtnError && <p>Something went wrong deleting post.. Please try again later</p>}
+          <div className={`${editModal} ${isModal ? 'toggle-modal' : ''}`}>
+            <div className={'modal-container'}>
+              <div className={'modal-header'}>
+                <div>Edit Post</div>
+                <button aria-label={'Close'} onClick={() => setIsModal(false)}>
+                  X
+                </button>
+              </div>
+              <form onSubmit={handleSubmit(onEditSubmit)}>
+                <h1>Edit post</h1>
+                <div>
+                  <label htmlFor="title">Title</label>
+                  <input {...register('title')} name="title" placeholder="Title of post" />
+                  {errors.title ? <p>{errors.title.message}</p> : null}
+                </div>
+                <div>
+                  <label htmlFor="body">Description</label>
+                  <textarea {...register('body')} name="body" placeholder="Description" rows={8} />
+                  {errors.body ? <p>{errors.body.message}</p> : null}
+                </div>
+                <div>
+                  <label htmlFor="media">Image</label>
+                  <input {...register('media')} name="media" placeholder="Image URL" />
+                  {errors.media ? <p>{errors.media.message}</p> : null}
+                </div>
+                <div>
+                  <label htmlFor="tags">
+                    Tags: <small className={'tag-desc'}>Type in tag and hit enter to add tags</small>
+                  </label>
+                  <div>
+                    <input id={'tags'} onKeyDown={handleTags} name="tags" placeholder="Tags (Optional)" />
+                    <div className={'tags'}>
+                      {tags.map((tag, index) => (
+                        <Button type={'button'} key={index} title="Remove tag" onClick={(e) => removeTag(e)}>
+                          {tag}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <Button type="submit" color="#3f51b5bf">
+                    {isSubmitting ? 'Processing ...' : 'Edit Post'}
+                  </Button>
+                </div>
+                {formError && <h2>{formErrorMsg}</h2>}
+              </form>
+            </div>
+          </div>
+        </section>
       </section>
     </>
   );

@@ -1,13 +1,44 @@
 @import '../sass/partials/base';
 
 .profileStyles {
+  display: flex;
+  gap: 2.5rem;
+
+  :global {
+    .avatar-change {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      background-color: $secondary-bg-color;
+      padding: 2.5rem 2rem;
+      border-radius: 1.5rem;
+      width: 16rem;
+
+      h2 {
+        text-align: center;
+      }
+
+      img {
+        width: 60%;
+        margin: 0 auto;
+      }
+    }
+
+    form {
+      width: 100%;
+      margin: 0;
+    }
+  }
+}
+
+.userPostStyles {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
 
   :global {
     .user-post {
-      padding: 2rem;
+      padding: 1.5rem;
       border-radius: 1.5rem;
       background-color: $secondary-bg-color;
 
@@ -15,7 +46,8 @@
         filter: initial;
       }
     }
-    h2 {
+
+    h3 {
       margin-top: 0;
       color: $primary-color;
       white-space: nowrap;
