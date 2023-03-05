@@ -21,6 +21,14 @@ const schema = yup.object({
     .matches(/\.(jpg|jpeg|png|webp|avif|gif|svg)$/, 'Image URL is not valid'),
 });
 
+const schemaAvatar = yup.object({
+  avatar: yup
+    .string()
+    .trim()
+    .required('Please enter an Image URL')
+    .matches(/\.(jpg|jpeg|png|webp|avif|gif|svg)$/, 'Image URL is not valid'),
+});
+
 function Profile() {
   const {
     register,
@@ -28,14 +36,24 @@ function Profile() {
     setValue,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
+  const {
+    register: registerAvatar,
+    handleSubmit: handleSubmitAvatar,
+    formState: { errors: errorsAvatar },
+  } = useForm({ resolver: yupResolver(schemaAvatar) });
+
   const [formError, setFormError] = useState(false);
   const [formErrorMsg, setFormErrorMSg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formAvatarError, setFormAvatarError] = useState(false);
+  const [formAvatarErrorMsg, setFormAvatarErrorMSg] = useState('');
+  const [isAvatarSubmitting, setIsAvatarsSubmitting] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [tags, setTags] = useState([]);
   const { accessToken, name: userName } = getFromStorage('userData');
   const [auth, setAuth] = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isAvatar, setIsAvatar] = useState(false);
   const [userPosts, setUserPosts] = useState([]);
   const [postId, setPostId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -43,6 +61,27 @@ function Profile() {
   const [isActionBtnError, setIsActionBtn] = useState(false);
   const [refreshComponent, setRefreshComponent] = useState(false);
 
+  function handleAvatarUpdate(data) {
+    setFormAvatarError(false);
+    setIsAvatarsSubmitting(true);
+    postData(`${GET_USER_POSTS_URL}${userName}/media`, data, 'PUT', accessToken)
+      .then((response) => {
+        if (response.avatar) {
+          localStorage.setItem('avatar', JSON.stringify(response.avatar));
+          setRefreshComponent(refreshComponent + 1);
+        } else {
+          setFormAvatarError(true);
+          setFormAvatarErrorMSg(response.errors[0].message);
+        }
+      })
+      .catch(() => {
+        setFormAvatarError(true);
+        setFormAvatarErrorMSg('Something went wrong.. please try again later');
+      })
+      .finally(() => {
+        setIsAvatarsSubmitting(false);
+      });
+  }
   function handleDeletePost(id) {
     setIsLoading(true);
     postData(EDIT_DELETE_USER_POST + id, null, 'DELETE', accessToken)
@@ -122,6 +161,12 @@ function Profile() {
   }, [auth, setAuth, accessToken, navigate]);
 
   useEffect(() => {
+    if (getFromStorage('avatar')) {
+      setIsAvatar(true);
+    }
+  }, [refreshComponent]);
+
+  useEffect(() => {
     async function getData() {
       const options = { headers: { Authorization: `Bearer ${accessToken}` } };
 
@@ -169,14 +214,22 @@ function Profile() {
       <section className={profileStyles}>
         <section id={'avatar-change'}>
           <div className={'avatar-change'}>
-            <img src={avatarPlaceholder} alt={'avatar'} />
+            <img src={isAvatar ? getFromStorage('avatar') : avatarPlaceholder} alt={userName} />
             <h2>{userName}</h2>
-            <form>
-              <label htmlFor={'change-avatar'}>Change Avatar</label>
-              <input id={'change-avatar'} placeholder={'Avatar URL'} />
+            <form onSubmit={handleSubmitAvatar(handleAvatarUpdate)}>
+              <label htmlFor={'avatar'}>Change Avatar</label>
+              <input
+                {...registerAvatar('avatar')}
+                type={'text'}
+                id={'avatar'}
+                name={'avatar'}
+                placeholder={'Avatar URL'}
+              />
+              {errorsAvatar.avatar ? <p>{errorsAvatar.avatar.message}</p> : null}
               <Button type="submit" color="#3f51b5bf">
-                {isSubmitting ? 'Processing ...' : 'Update Avatar'}
+                {isAvatarSubmitting ? 'Processing ...' : 'Update Avatar'}
               </Button>
+              {formAvatarError && <h2>{formAvatarErrorMsg}</h2>}
             </form>
           </div>
         </section>

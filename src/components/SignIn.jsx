@@ -43,7 +43,14 @@ function SignIn() {
     postData(USER_LOGIN_URL, payload)
       .then((response) => {
         if (response.accessToken) {
-          localStorage.setItem('userData', JSON.stringify(response));
+          const userData = {
+            name: response.name,
+            email: response.email,
+            accessToken: response.accessToken,
+          };
+
+          localStorage.setItem('userData', JSON.stringify(userData));
+          localStorage.setItem('avatar', JSON.stringify(response.avatar));
           setAuth(response.accessToken);
           navigate('/');
         } else {
