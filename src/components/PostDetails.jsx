@@ -18,6 +18,10 @@ function PostDetails() {
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
+  function handleImgError(e) {
+    e.target.remove();
+  }
+
   useEffect(() => {
     if (!accessToken) {
       navigate('/sign-in', { replace: true });
@@ -78,10 +82,20 @@ function PostDetails() {
               <div>
                 <h2>{post.title}</h2>
                 {post.author && (
-                  <small className="author">
-                    By <span>{post.author.name}</span> on{' '}
-                    {new Date(post.created).toLocaleDateString(undefined, dateOptions)}
-                  </small>
+                  <div className="author">
+                    <span>
+                      By <span className={'author-name'}>{post.author.name}</span>{' '}
+                    </span>
+                    {post.author.avatar && (
+                      <img
+                        className={'avatar-img'}
+                        src={post.author.avatar}
+                        alt={post.author.name}
+                        onError={handleImgError}
+                      />
+                    )}{' '}
+                    on {new Date(post.created).toLocaleDateString(undefined, dateOptions)}
+                  </div>
                 )}
                 <p>{post.body}</p>
                 {post.tags && post.tags.length && post.tags.join() ? (
