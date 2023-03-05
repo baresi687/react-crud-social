@@ -21,7 +21,6 @@
 
     h2 {
       margin: 0;
-      text-transform: capitalize;
     }
 
     .author {
@@ -29,10 +28,6 @@
       span {
         font-weight: bold;
       }
-    }
-
-    p:first-letter {
-      text-transform: capitalize;
     }
 
     .tags {
