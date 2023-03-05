@@ -48,6 +48,9 @@
   height: 100%;
   top: 0;
   left: 0;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   background-color: $primary-modal-bg-color;
 
   :global {
@@ -96,4 +99,8 @@
       }
     }
   }
+}
+
+.editModal::-webkit-scrollbar {
+  display: none;
 }
