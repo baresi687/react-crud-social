@@ -13,17 +13,20 @@ A Social Media website where users can Sign Up, Sign In, Create Post, Edit Post,
 - A registered user can update their avatar
 - A registered user can view the Post content feed
 - A registered user can view a Post item details by ID
-- A registered user can create a Post 
-- A registered user can update a Post 
-- A registered user can delete a Post 
+- A registered user can create a Post
+- A registered user can update a Post
+- A registered user can delete a Post
 
+![Home screenshot](screenshots/00-home.png)
+![Sign Up screenshot](screenshots/01-sign-up.png)
+![Create Post screenshot](screenshots/02-create-post.png)
+![Edit Post screenshot](screenshots/03-edit-post.png)
 
 ## Built With
 
 - [Vite](https://vitejs.dev/)
 - [React](https://reactjs.org/)
 - Sass
-
 
 ## Getting Started
 
@@ -52,7 +55,6 @@ npm run preview
 
 Then Sign Up and Sign In with any **@noroff.no or **@stud.noroff.no email address.<br>
 The email address does not have to be real or valid. It just needs have the ending @noroff.no or @stud.noroff.no
-
 
 ## Contact
 
