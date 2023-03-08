@@ -1,5 +1,5 @@
 function handleImgError(e) {
-  e.target.src = '../public/placeholder-image.svg';
+  e.target.src = '/placeholder-image.svg';
 }
 
 export { handleImgError };
