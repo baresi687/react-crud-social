@@ -1,3 +1,41 @@
+@import '../sass/partials/base';
+
+.sortPosts {
+  display: flex;
+  gap: 1.5rem;
+  align-items: baseline;
+  margin: 2rem 0;
+
+  :global {
+    .sort-by {
+      label {
+        margin-right: 0.5rem;
+      }
+
+      select {
+        padding: 0.2rem 0.4rem;
+        border-radius: 0.2rem;
+        background-color: $tertiary-bg-color;
+      }
+    }
+
+    .asc-desc {
+      display: flex;
+      gap: 1rem;
+
+      & > div {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      input {
+        margin: 0;
+      }
+    }
+  }
+}
+
 .posts {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -8,6 +46,12 @@
       border-radius: 1.5rem;
       padding: 1rem;
       background-color: #2a2a2a;
+      color: $primary-color;
+
+      &:hover {
+        color: $primary-anchor-color;
+        filter: brightness(105%);
+      }
     }
 
     img {
@@ -17,6 +61,7 @@
 
     .post-heading {
       font-size: 1.125rem;
+      overflow: hidden;
     }
 
     p {

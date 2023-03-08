@@ -19,7 +19,8 @@ A Social Media website where users can Sign Up, Sign In, Create Post, Edit Post,
 
 ![Home screenshot](screenshots/00-home.png)
 ![Sign Up screenshot](screenshots/01-sign-up.png)
-![Create Post screenshot](screenshots/02-create-post.png)
+![Posts page screenshot](screenshots/02-posts.png)
+![Create Post screenshot](screenshots/03-create-post.png)
 ![Edit Post screenshot](screenshots/03-edit-post.png)
 
 ## Built With
