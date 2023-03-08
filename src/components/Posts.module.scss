@@ -1,3 +1,41 @@
+@import '../sass/partials/base';
+
+.sortPosts {
+  display: flex;
+  gap: 1.5rem;
+  align-items: baseline;
+  margin: 2rem 0;
+
+  :global {
+    .sort-by {
+      label {
+        margin-right: 0.5rem;
+      }
+
+      select {
+        padding: 0.2rem 0.4rem;
+        border-radius: 0.2rem;
+        background-color: $tertiary-bg-color;
+      }
+    }
+
+    .asc-desc {
+      display: flex;
+      gap: 1rem;
+
+      & > div {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      input {
+        margin: 0;
+      }
+    }
+  }
+}
+
 .posts {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -17,6 +55,7 @@
 
     .post-heading {
       font-size: 1.125rem;
+      overflow: hidden;
     }
 
     p {
