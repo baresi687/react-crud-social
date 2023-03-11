@@ -17,11 +17,12 @@ A Social Media website where users can Sign Up, Sign In, Create Post, Edit Post,
 - A registered user can update a Post
 - A registered user can delete a Post
 
-![Home screenshot](screenshots/00-home.png)
-![Sign Up screenshot](screenshots/01-sign-up.png)
-![Posts page screenshot](screenshots/02-posts.png)
-![Create Post screenshot](screenshots/03-create-post.png)
-![Edit Post screenshot](screenshots/03-edit-post.png)
+![Home screenshot](screenshots/home.png)
+![Sign Up screenshot](screenshots/sign-up.png)
+![Posts page screenshot](screenshots/posts.png)
+![Create Post screenshot](screenshots/create-post.png)
+![Post details screenshot](screenshots/post-details.png)
+![Edit Post screenshot](screenshots/edit-post.png)
 
 ## Built With
 
