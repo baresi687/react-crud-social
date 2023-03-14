@@ -1,6 +1,6 @@
 @import '../sass/partials/base';
 
-.post {
+.postStyles {
   display: flex;
   gap: 2rem;
   background-color: $secondary-bg-color;
@@ -91,6 +91,53 @@
           display: flex;
           gap: 1rem;
         }
+      }
+    }
+  }
+}
+
+.postComments {
+  background-color: $secondary-bg-color;
+  margin: 2rem 0;
+  border-radius: 1.5rem;
+  padding: 2rem;
+
+  h3 {
+    margin-top: 0;
+  }
+
+  :global {
+    .comments-container {
+      display: flex;
+    }
+
+    .comments {
+      display: flex;
+      flex-direction: column;
+      flex-basis: 50%;
+      gap: 1rem;
+
+      .comment,
+      .no-comment {
+        background-color: $primary-bg-color;
+        padding: 1rem 2rem;
+        border-radius: 1rem;
+      }
+    }
+
+    .post-comment {
+      margin: 0 auto;
+
+      h4 {
+        margin: 0;
+      }
+
+      form {
+        background-color: $primary-bg-color;
+        width: 20rem;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        margin: 0;
       }
     }
   }
