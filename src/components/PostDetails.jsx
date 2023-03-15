@@ -29,6 +29,7 @@ function PostDetails() {
   const [postCommentError, setPostCommentError] = useState('');
   const [commentSubmitted, setCommentSubmitted] = useState(1);
   const [isComment, setIsComment] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEmoji, setIsEmoji] = useState(false);
   const [emoji, setEmoji] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -62,13 +63,18 @@ function PostDetails() {
       });
   }
 
-  function handleComment(data) {
+  function handleComment(data, e) {
     setPostCommentError('');
+    setIsSubmitting(true);
     postData(`${GET_POST_DETAILS}${id}/comment`, data, 'POST', accessToken)
       .then((response) => {
         if (response.body) {
           setCommentSubmitted(commentSubmitted + 1);
           setIsComment(true);
+
+          setTimeout(() => {
+            e.target.parentElement.parentElement.scrollIntoView({ block: 'end', inline: 'end' });
+          }, 300);
         } else if (response.errors) {
           switch (response.statusCode) {
             case 400:
@@ -81,6 +87,9 @@ function PostDetails() {
       })
       .catch(() => {
         setPostCommentError('Something went wrong.. please try again later');
+      })
+      .finally(() => {
+        setIsSubmitting(false);
       });
   }
 
@@ -233,32 +242,34 @@ function PostDetails() {
                       .map(({ owner, body, created }, index) => {
                         return (
                           <div className={'comment'} key={index}>
-                            <p>
+                            <small>
                               <strong>{owner}</strong> on {new Date(created).toLocaleDateString(undefined, dateOptions)}
-                            </p>
+                            </small>
                             <p>{body}</p>
                           </div>
                         );
                       })
                   ) : (
                     <div className={'no-comment'}>
-                      <p>You can be the first comment ❤️</p>
+                      <p>You can be the first to comment ❤️</p>
                     </div>
                   )}
                 </div>
                 <div className={'post-comment'}>
                   <form onSubmit={handleSubmit(handleComment)}>
-                    <h4>Place a comment</h4>
-                    <label htmlFor={'body'}>Comment</label>
+                    <h4>
+                      <label htmlFor={'body'}>Place a comment</label>
+                    </h4>
                     <textarea
                       onKeyDown={() => setPostCommentError('')}
                       {...register('body')}
                       rows={10}
                       name={'body'}
+                      placeholder={'Your comment'}
                     ></textarea>
                     {errors.body?.message ? <p>{errors.body?.message}</p> : null}
                     <Button color={'#3f51b5bf'} type={'submit'}>
-                      Comment
+                      {isSubmitting ? 'Processing ...' : 'Comment'}
                     </Button>
                     {postCommentError && <p>{postCommentError}</p>}
                   </form>

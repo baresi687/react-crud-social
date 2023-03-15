@@ -120,24 +120,38 @@
       .comment,
       .no-comment {
         background-color: $primary-bg-color;
-        padding: 1rem 2rem;
-        border-radius: 1rem;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+      }
+
+      .comment p {
+        margin-bottom: 0;
+      }
+
+      .no-comment p {
+        margin: 0;
       }
     }
 
     .post-comment {
       margin: 0 auto;
+      position: relative;
 
       h4 {
         margin: 0;
       }
 
       form {
+        position: sticky;
+        top: 16rem;
         background-color: $primary-bg-color;
-        width: 20rem;
         padding: 2rem;
         border-radius: 0.5rem;
         margin: 0;
+
+        textarea {
+          background-color: $secondary-bg-color;
+        }
       }
     }
   }
