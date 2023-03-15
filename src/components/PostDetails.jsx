@@ -3,24 +3,42 @@ import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { GET_POST_DETAILS } from '../settings/api.js';
 import { getFromStorage } from '../utils/storage.js';
-import { post as postStyles } from './PostDetails.module.scss';
+import { postStyles, postComments } from './PostDetails.module.scss';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { handleImgError } from '../utils/validation.js';
 import { postData } from '../utils/fetchFunctions.js';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { string } from 'yup';
+import Button from './Button.jsx';
 
 const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 const backBtnStyle = { margin: '1.5rem 0' };
+const schema = yup.object({
+  body: string().required('Please enter a comment'),
+});
 
 function PostDetails() {
   const [auth, setAuth] = useContext(AuthContext);
   const { accessToken } = getFromStorage('userData');
   const { id } = useParams();
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useState({});
   const [reactions, setReactions] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [postCommentError, setPostCommentError] = useState('');
+  const [commentSubmitted, setCommentSubmitted] = useState(1);
+  const [isComment, setIsComment] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEmoji, setIsEmoji] = useState(false);
   const [emoji, setEmoji] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
   const navigate = useNavigate();
 
   function handleAvatarError(e) {
@@ -45,6 +63,36 @@ function PostDetails() {
       });
   }
 
+  function handleComment(data, e) {
+    setPostCommentError('');
+    setIsSubmitting(true);
+    postData(`${GET_POST_DETAILS}${id}/comment`, data, 'POST', accessToken)
+      .then((response) => {
+        if (response.body) {
+          setCommentSubmitted(commentSubmitted + 1);
+          setIsComment(true);
+
+          setTimeout(() => {
+            e.target.parentElement.parentElement.scrollIntoView({ block: 'end', inline: 'end' });
+          }, 300);
+        } else if (response.errors) {
+          switch (response.statusCode) {
+            case 400:
+              setPostCommentError(response.errors[0].message);
+              break;
+            default:
+              setPostCommentError('Something went wrong.. please try again later');
+          }
+        }
+      })
+      .catch(() => {
+        setPostCommentError('Something went wrong.. please try again later');
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
+  }
+
   useEffect(() => {
     if (!accessToken) {
       navigate('/sign-in', { replace: true });
@@ -61,7 +109,7 @@ function PostDetails() {
       };
 
       try {
-        isEmoji ? setIsLoading(false) : setIsLoading(true);
+        isEmoji || isComment ? setIsLoading(false) : setIsLoading(true);
         setIsError(false);
 
         const response = await fetch(`${GET_POST_DETAILS}${id}?_author=true&_comments=true&_reactions=true`, options);
@@ -73,6 +121,10 @@ function PostDetails() {
           if (responseJSON.reactions.length) {
             setReactions(responseJSON.reactions);
           }
+
+          if (responseJSON.comments.length) {
+            setComments(responseJSON.comments);
+          }
         } else {
           setIsError(true);
         }
@@ -83,7 +135,7 @@ function PostDetails() {
       }
     }
     getData();
-  }, [id, accessToken, isEmoji, emoji]);
+  }, [id, accessToken, isEmoji, emoji, commentSubmitted, isComment]);
 
   if (isError) {
     return (
@@ -178,6 +230,50 @@ function PostDetails() {
               </div>
               <div>
                 <img src={post.media} alt={post.title} onError={handleImgError} />
+              </div>
+            </div>
+            <div className={postComments}>
+              <h3>Comments</h3>
+              <div className={'comments-container'}>
+                <div className={'comments'}>
+                  {comments.length ? (
+                    comments
+                      .sort((a, b) => a.id - b.id)
+                      .map(({ owner, body, created }, index) => {
+                        return (
+                          <div className={'comment'} key={index}>
+                            <small>
+                              <strong>{owner}</strong> on {new Date(created).toLocaleDateString(undefined, dateOptions)}
+                            </small>
+                            <p>{body}</p>
+                          </div>
+                        );
+                      })
+                  ) : (
+                    <div className={'no-comment'}>
+                      <p>You can be the first to comment ❤️</p>
+                    </div>
+                  )}
+                </div>
+                <div className={'post-comment'}>
+                  <form onSubmit={handleSubmit(handleComment)}>
+                    <h4>
+                      <label htmlFor={'body'}>Place a comment</label>
+                    </h4>
+                    <textarea
+                      onKeyDown={() => setPostCommentError('')}
+                      {...register('body')}
+                      rows={10}
+                      name={'body'}
+                      placeholder={'Your comment'}
+                    ></textarea>
+                    {errors.body?.message ? <p>{errors.body?.message}</p> : null}
+                    <Button color={'#3f51b5bf'} type={'submit'}>
+                      {isSubmitting ? 'Processing ...' : 'Comment'}
+                    </Button>
+                    {postCommentError && <p>{postCommentError}</p>}
+                  </form>
+                </div>
               </div>
             </div>
           </>
